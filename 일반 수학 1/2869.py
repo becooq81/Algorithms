@@ -1,12 +1,13 @@
 a, b, v = map(int, input().split())
 
-distance = 0
-if (v % a != 0):
-    distance = a * (v // a) 
+distance = v - a
+days = distance // (a-b) + 1
+if a == v:
+    print(1)
 else:
-    distance = v // a - a
+    if (distance <= (a-b)): 
+        days += 1
+    if ((a-b)*(days-1)+a < v):
+        days += 1
 
-quo = distance // (a-b)
-if (distance % (a-b) != 0):
-    quo += 1
-print(quo + 1)
+    print(days)
