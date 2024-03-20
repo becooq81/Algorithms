@@ -7,11 +7,9 @@ for _ in range(t):
 for testcase in testcases:
     zeros = 0
     ones = 0
-    if testcase == 0:
-        zeros = 1
-        ones = 0
-    elif testcase == 1:
-        zeros = 0
-        ones = 1
-    else:
-        print(f"{zeros} {ones}")
+    
+    pairs = [[1,0],[0,1]]
+    for num in range(2, testcase +1):
+        pairs.append([pairs[num-2][0]+pairs[num-1][0], pairs[num-1][1]+pairs[num-2][1]])
+        
+    print(f"{pairs[testcase][0]} {pairs[testcase][1]}")
