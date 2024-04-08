@@ -1,1 +1,1 @@
-# baekjoon-python
+# algorithms
