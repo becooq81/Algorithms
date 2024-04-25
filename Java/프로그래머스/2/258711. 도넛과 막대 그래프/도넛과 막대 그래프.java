@@ -24,10 +24,6 @@ class Solution {
             incoming[end] ++;
         }
         
-        //for (int vertex : vertices) {
-            //System.out.println("Vertex "+vertex+": 나가는간선("+outgoing[vertex]+"), 들어오는간선("+incoming[vertex]+")");
-        //}
-        
         List<Integer> categorized = new ArrayList<>();
         
         for (int vertex : vertices) {
