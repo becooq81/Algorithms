@@ -1,6 +1,8 @@
+from collections import deque
 def bfs(start):
     visited[start] = 1
-    queue = [start]
+    queue = deque()
+    queue.append(start)
     count = 0
     
     while queue:
