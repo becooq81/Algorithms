@@ -6,7 +6,7 @@ def bfs(start):
     count = 0
     
     while queue:
-        node = queue.pop(0)
+        node = queue.popleft()
         
         for i in graph[node]:
             if visited[i] == 0:
