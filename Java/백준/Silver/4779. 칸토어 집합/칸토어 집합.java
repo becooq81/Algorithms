@@ -11,16 +11,14 @@ public class Main {
             } catch (Exception e) {
                 break;
             }
-            if (N == 0) {
-                System.out.println("-");
-                continue;
-            }
             System.out.println(divide(0, (int) Math.pow(3, N)));
         }
 
     }
 
     private static String divide(int start, int end) {
+        if (end == 1)
+            return "-";
         int diff = (end - start) / 3;
         int mid1 = start + diff;
         int mid2 = start + diff * 2;
