@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Main {
     private static final char ADD = 'I', WHITESPACE = ' ';
-    private static final String EMPTY = "EMPTY";
+    private static final String EMPTY = "EMPTY", NEW_LINE="\n";
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -49,7 +49,7 @@ public class Main {
             } else {
                 sb.append(map.lastKey()).append(WHITESPACE).append(map.firstKey());
             }
-            sb.append("\n");
+            sb.append(NEW_LINE);
         }
         System.out.append(sb);
     }
