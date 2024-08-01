@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    private static final char ADD = 'I', REMOVE = 'D';
+    private static final char ADD = 'I', WHITESPACE = ' ';
     private static final String EMPTY = "EMPTY";
 
     public static void main(String[] args) throws IOException {
@@ -47,7 +47,7 @@ public class Main {
             if (map.isEmpty()) {
                 sb.append(EMPTY);
             } else {
-                sb.append(map.lastKey()).append(" ").append(map.firstKey());
+                sb.append(map.lastKey()).append(WHITESPACE).append(map.firstKey());
             }
             sb.append("\n");
         }
