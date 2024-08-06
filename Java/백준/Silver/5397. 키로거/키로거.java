@@ -10,52 +10,42 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         int N = Integer.parseInt(br.readLine());
         for (int i = 0; i < N; i++) {
-            sb.append(solve(br.readLine())).append(NEW_LINE);
+            sb.append(solve(br.readLine().toCharArray())).append(NEW_LINE);
         }
         System.out.append(sb);
     }
 
-    private static String solve(String input) {
-        ArrayDeque<Character> left = new ArrayDeque<>();
-        ArrayDeque<Character> right = new ArrayDeque<>();
-
-        for (int i = 0; i < input.length(); i++) {
-            char current = input.charAt(i);
-            switch (current) {
-
+    private static String solve(char[] input) {
+        LinkedList<Character> ll = new LinkedList<>();
+        ListIterator<Character> iterator = ll.listIterator();
+        for (char c : input) {
+            switch (c) {
                 case MOVE_LEFT:
-                    if (!left.isEmpty()) {
-                        char c = left.pollLast();
-                        right.addFirst(c);
-                    }
+                    if (iterator.hasPrevious())
+                        iterator.previous();
                     break;
                 case MOVE_RIGHT:
-                    if (!right.isEmpty()) {
-                        char c = right.poll();
-                        left.addLast(c);
-                    }
+                    if (iterator.hasNext())
+                        iterator.next();
                     break;
                 case BACKSPACE:
-                    if (!left.isEmpty()) {
-                        left.pollLast();
+                    if (iterator.hasPrevious()) {
+                        iterator.previous();
+                        iterator.remove();
                     }
                     break;
                 default:
-                    left.addLast(current);
+                    iterator.add(c);
             }
         }
-        return toString(left, right);
+        return toString(ll);
     }
 
-    private static String toString(ArrayDeque<Character> left, ArrayDeque<Character> right) {
+    private static String toString(LinkedList<Character> ll) {
         StringBuilder sb = new StringBuilder();
-        while (!left.isEmpty()) {
-            sb.append(left.poll());
-        }
-        while (!right.isEmpty()) {
-            sb.append(right.poll());
+        for (char c : ll) {
+            sb.append(c);
         }
         return sb.toString();
-
     }
 }
