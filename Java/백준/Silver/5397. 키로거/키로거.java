@@ -3,46 +3,59 @@ import java.io.*;
 
 public class Main {
 
-    private static final char MOVE_LEFT = '<', MOVE_RIGHT = '>', BACKSPACE = '-';
+    private static final char MOVE_LEFT = '<', MOVE_RIGHT = '>', BACKSPACE = '-', NEW_LINE = '\n';
 
     public static void main(String[] args) throws IOException {
-        StringBuilder sb = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int T = Integer.parseInt(br.readLine());
-        for (int i = 0; i < T; i++) {
-            sb.append(solvePassword(br.readLine().toCharArray())).append("\n");
+        StringBuilder sb = new StringBuilder();
+        int N = Integer.parseInt(br.readLine());
+        for (int i = 0; i < N; i++) {
+            sb.append(solve(br.readLine())).append(NEW_LINE);
         }
         System.out.append(sb);
     }
 
-    private static String solvePassword(char[] input) {
-        LinkedList<Character> output = new LinkedList<>();
-        int idx = 0;
-        int outputIdx = 0;
-        while (idx < input.length) {
-            char current = input[idx];
-            if (current == MOVE_LEFT) {
-                outputIdx = Math.max(0, outputIdx - 1);
-            } else if (current == MOVE_RIGHT) {
-                outputIdx = Math.min(output.size(), outputIdx + 1);
-            } else if (current == BACKSPACE) {
-                if (!output.isEmpty()) {
-                    if (outputIdx != 0) {
-                        output.remove(outputIdx - 1);
-                        outputIdx = Math.max(0, --outputIdx);
+    private static String solve(String input) {
+        ArrayDeque<Character> left = new ArrayDeque<>();
+        ArrayDeque<Character> right = new ArrayDeque<>();
+
+        for (int i = 0; i < input.length(); i++) {
+            char current = input.charAt(i);
+            switch (current) {
+
+                case MOVE_LEFT:
+                    if (!left.isEmpty()) {
+                        char c = left.pollLast();
+                        right.addFirst(c);
                     }
-                }
-            } else {
-                output.add(outputIdx++, current);
-                outputIdx = Math.min(output.size(), outputIdx);
+                    break;
+                case MOVE_RIGHT:
+                    if (!right.isEmpty()) {
+                        char c = right.poll();
+                        left.addLast(c);
+                    }
+                    break;
+                case BACKSPACE:
+                    if (!left.isEmpty()) {
+                        left.pollLast();
+                    }
+                    break;
+                default:
+                    left.addLast(current);
             }
-            idx++;
         }
+        return toString(left, right);
+    }
 
+    private static String toString(ArrayDeque<Character> left, ArrayDeque<Character> right) {
         StringBuilder sb = new StringBuilder();
-        for (char c : output)
-            sb.append(c);
-
+        while (!left.isEmpty()) {
+            sb.append(left.poll());
+        }
+        while (!right.isEmpty()) {
+            sb.append(right.poll());
+        }
         return sb.toString();
+
     }
 }
