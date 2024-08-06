@@ -1,8 +1,6 @@
 import java.util.*;
 import java.io.*;
 
-// https://www.acmicpc.net/problem/2206
-
 public class Main {
 
     private static int N, M;
@@ -49,7 +47,6 @@ public class Main {
         while (!queue.isEmpty()) {
             Node current = queue.poll();
 
-            // System.out.printf("current: y: %d, x: %d, dist: %d, brokeWall: %s\n", current.y, current.x, current.dist, current.brokeWall);
             if (current.x == M - 1 && current.y == N - 1)
                 return current.dist;
 
@@ -63,15 +60,12 @@ public class Main {
                 if (current.brokeWall && grid[ny][nx] == 0 && visited[ny][nx][1] == 0) {
                     queue.add(new Node(ny, nx, current.dist + 1, true));
                     visited[ny][nx][1] = 1;
-                    // System.out.printf("    ny: %d, nx: %d, dist: %d, brokeWall: %s\n", ny, nx, current.dist + 1, true);
                 } else if (!current.brokeWall && grid[ny][nx] == 0 && visited[ny][nx][0] == 0) {
                     queue.add(new Node(ny, nx, current.dist + 1, false));
                     visited[ny][nx][0] = 1;
-                    // System.out.printf("    ny: %d, nx: %d, dist: %d, brokeWall: %s\n", ny, nx, current.dist + 1, false);
                 } else if (!current.brokeWall && grid[ny][nx] == 1 && visited[ny][nx][1] == 0) {
                     queue.add(new Node(ny, nx, current.dist + 1, true));
                     visited[ny][nx][1] = 1;
-                    // System.out.printf("    ny: %d, nx: %d, dist: %d, brokeWall: %s\n", ny, nx, current.dist + 1, true);
                 }
             }
         }
