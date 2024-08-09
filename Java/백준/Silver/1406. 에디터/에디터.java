@@ -1,7 +1,5 @@
 import java.util.*;
 
-import javax.print.DocFlavor.STRING;
-
 import java.io.*;
 
 public class Main {
@@ -9,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        String input = br.readLine();
+        char[] input = br.readLine().toCharArray();
         int N = Integer.parseInt(br.readLine());
         char[][] cmd = new char[N][2];
         for (int i = 0; i < N; i++) {
@@ -19,8 +17,8 @@ public class Main {
         }
 
         ArrayDeque<Character> left = new ArrayDeque<>();
-        for (int i = 0; i < input.length(); i++) {
-            left.addLast(input.charAt(i));
+        for (int i = 0; i < input.length; i++) {
+            left.addLast(input[i]);
         }
         ArrayDeque<Character> right = new ArrayDeque<>();
 
@@ -48,7 +46,6 @@ public class Main {
                     left.addLast(cmd[i][1]);
                     break;
             }
-            //System.out.println(left.toString() + right.toString());
         }
 
         StringBuilder sb = new StringBuilder();
