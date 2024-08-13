@@ -7,7 +7,8 @@ public class Main {
     static StringBuilder sb = new StringBuilder();
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    static int[] visited, kits;
+    static boolean[] visited;
+    static int[] kits;
     static int N, K, count;
     public static void main(String[] args) throws IOException {
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -15,7 +16,7 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
         
-        visited = new int[N];
+        visited = new boolean[N];
         kits = new int[N];
         st = new StringTokenizer(br.readLine());
         int i = 0; 
@@ -34,10 +35,10 @@ public class Main {
             return;
         }
         for (int i = 0; i < N; i++) {
-            if (visited[i] == 0 && kits[i] + curr - K >= 500) {
-                visited[i] = 1;
+            if (!visited[i] && kits[i] + curr - K >= 500) {
+                visited[i] = true;
                 solve(idx+1, kits[i] + curr - K);
-                visited[i] = 0;
+                visited[i] = false;
             }
         }
     }
