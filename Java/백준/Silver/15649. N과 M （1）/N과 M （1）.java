@@ -7,14 +7,14 @@ public class Main {
     static StringBuilder sb = new StringBuilder();
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    static int[] visited;
+    static boolean[] visited;
     static int N, M;
     public static void main(String[] args) throws IOException {
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        visited = new int[N+1];
+        visited = new boolean[N+1];
 
         makePermutation(0, new int[M]);
 
@@ -27,11 +27,11 @@ public class Main {
             return;
         }
         for (int i = 1; i <= N; i++) {
-            if (visited[i] == 0) {
+            if (!visited[i]) {
                 tmp[idx] = i;
-                visited[i] = 1;
+                visited[i] = true;
                 makePermutation(idx + 1, tmp);
-                visited[i] = 0;
+                visited[i] = false;
                 tmp[idx] = 0;
             }
         }
