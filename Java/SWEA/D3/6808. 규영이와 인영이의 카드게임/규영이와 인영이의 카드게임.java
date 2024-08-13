@@ -4,9 +4,8 @@ import java.io.*;
 public class Solution {
     static final char NEW_LINE = '\n', WHITESPACE = ' ', HASHTAG = '#';
     static final int numOfStages = 9;
-    static int T;
+    static int T, gyuWinCount = 0, gyuLoseCount = 0;
     static int[] inyoung = new int[numOfStages], gyuyoung = new int[numOfStages];;
-    static ArrayDeque<int[]> cardsPermutation = new ArrayDeque<>();
     static TreeSet<Integer> arr = new TreeSet<>();
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,6 +17,8 @@ public class Solution {
         for (int i = 0; i < T; i++) {
             st = new StringTokenizer(br.readLine());
             arr.clear();
+            gyuWinCount = 0;
+            gyuLoseCount = 0;
             int idx = 0;
             while (st.hasMoreTokens()) {
                 int num = Integer.parseInt(st.nextToken());
@@ -34,15 +35,9 @@ public class Solution {
                 inyoung[idx++] = j;
             }
 
-            cardsPermutation.clear();
             solvePermutation(0, new int[numOfStages], new boolean[numOfStages]);
             
-            int gyuWinCount = 0, gyuLoseCount = 0;
-            for (int[] gyuCards : cardsPermutation) {
-                int result = solveWhoWins(gyuCards);
-                if (result == 0) gyuWinCount ++;
-                else if (result == 1) gyuLoseCount ++;
-            }
+
             sb.append(HASHTAG).append(i+1).append(WHITESPACE);
             sb.append(gyuLoseCount).append(WHITESPACE).append(gyuWinCount).append(NEW_LINE);
         }
@@ -53,7 +48,9 @@ public class Solution {
 
     private static void solvePermutation(int idx, int[] cards, boolean[] visited) {
         if (idx == numOfStages) {
-            cardsPermutation.add(Arrays.copyOf(cards, numOfStages));
+            int result = solveWhoWins(cards);
+            if (result == 0) gyuWinCount ++;
+            else if (result == 1) gyuLoseCount ++;
             return;
         }
         for (int i = 0; i < 9; i++) {
@@ -76,7 +73,6 @@ public class Solution {
             if (perm[i] > gyuyoung[i]) gyuScore += stake;
             else inScore += stake;
         }
-        
         if (gyuScore > inScore) return 0;
         else if (gyuScore < inScore) return 1;
         else return 2;
