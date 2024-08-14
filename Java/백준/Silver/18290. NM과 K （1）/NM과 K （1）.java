@@ -27,11 +27,8 @@ public class Main {
             }
         }
 
+        generateCombinations(0, 0, new Node[K], new boolean[N*M]);
         
-
-        for (int i = 0; i < N*M; i++) {
-            generateCombinations(0, i, new Node[K]);
-        }
         sb.append(maxSum);
         br.close();
         bw.write(sb.toString());
@@ -60,7 +57,7 @@ public class Main {
         maxSum = Math.max(maxSum, sum);
     }
 
-    private static void generateCombinations(int depth, int start, Node[] result) {
+    private static void generateCombinations(int depth, int start, Node[] result, boolean[] visited) {
         if (depth == K) {
             if (noAdjacent(result)) {
                 updateMaxSum(result);
@@ -69,7 +66,9 @@ public class Main {
         }
         for (int i = start; i < N * M; i++) {
             result[depth] = nodes.get(i);
-            generateCombinations(depth+1, i+1, result);
+            visited[i] = true;
+            generateCombinations(depth+1, i+1, result, visited);
+            visited[i] = false;
         }
     }
 
