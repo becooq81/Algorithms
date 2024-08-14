@@ -1,6 +1,5 @@
 import java.util.*;
 import java.io.*;
-import java.lang.reflect.Array;
 
 public class Main {
 
@@ -18,7 +17,30 @@ public class Main {
         grid = new char[N][N];
         ArrayDeque<int[]> teachers = new ArrayDeque<>();
 
-        
+        init(br, N, teachers);
+
+        boolean success = false;
+
+        combination(0, 0, N, 3, new boolean[N][N], new int[3][2]);
+        while (!deque.isEmpty()) {
+            int[][] node = deque.pollFirst();
+
+            setGrid(node, true);
+            
+            success = isSafe(N, teachers);
+            if (success) break;
+
+            setGrid(node, false);
+        }
+
+        sb.append(success ? "YES" : "NO");
+        bw.write(sb.toString());
+        bw.flush();
+        br.close();
+    }
+
+    private static void init(BufferedReader br, int N, ArrayDeque<int[]> teachers) throws IOException {
+        StringTokenizer st;
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             int j = 0;
@@ -28,29 +50,13 @@ public class Main {
                 grid[i][j++] = letter;
             }
         }
-        boolean success = false;
+    }
 
-        combination(0, 0, N, 3, new boolean[N][N], new int[3][2]);
-        while (!deque.isEmpty()) {
-            int[][] node = deque.pollFirst();
-
-            grid[node[0][0]][node[0][1]] = 'O';
-            grid[node[1][0]][node[1][1]] = 'O';
-            grid[node[2][0]][node[2][1]] = 'O';
-            
-            success = isSafe(N, teachers);
-            if (success) break;
-
-            grid[node[0][0]][node[0][1]] = 'X';
-            grid[node[1][0]][node[1][1]] = 'X';
-            grid[node[2][0]][node[2][1]] = 'X';
+    private static void setGrid(int[][] node, boolean reflected) {
+        char replacement = reflected ? 'O' : 'X';
+        for (int i = 0; i < 3; i++) {
+            grid[node[i][0]][node[i][1]] = replacement;
         }
-
-        if (success) sb.append("YES");
-        else sb.append("NO");
-        bw.write(sb.toString());
-        bw.flush();
-        br.close();
     }
 
     private static boolean isSafe(int N, ArrayDeque<int[]> teachers) {
