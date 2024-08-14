@@ -2,46 +2,44 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static final char NEW_LINE = '\n', WHITESPACE = ' ';
-
+    static int M, N;
     static StringBuilder sb = new StringBuilder();
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-    static boolean[] visited;
-    static int N, M;
     public static void main(String[] args) throws IOException {
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
+        StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        visited = new boolean[N+1];
 
-        makePermutation(0, new int[M]);
+        permutations(0, 0, new int[M], new boolean[N+1]);
 
-        System.out.append(sb);
+        bw.write(sb.toString());
+        bw.flush();
+        br.close();
     }
 
-    private static void makePermutation(int idx, int[] tmp) {
-        if (idx == M) {
-            sb.append(listToString(tmp)).append(NEW_LINE);
+    private static void permutations(int depth, int idx, int[] result, boolean[] visited) {
+        if (depth == M) {
+            sb.append(arrToString(result)).append("\n");
             return;
         }
+
         for (int i = 1; i <= N; i++) {
             if (!visited[i]) {
-                tmp[idx] = i;
                 visited[i] = true;
-                makePermutation(idx + 1, tmp);
+                result[idx] = i;
+                permutations(depth+1, idx+1, result, visited);
                 visited[i] = false;
-                tmp[idx] = 0;
             }
         }
     }
 
-    private static String listToString(int[] tmp) {
+    private static String arrToString(int[] result) {
         StringBuilder sb = new StringBuilder();
-        for (int a : tmp) {
-            sb.append(a).append(WHITESPACE);
+        for (int a : result) {
+            sb.append(a).append(" ");
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 }
