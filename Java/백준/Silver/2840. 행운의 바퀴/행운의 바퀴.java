@@ -22,7 +22,6 @@ public class Main {
             int turn = Integer.parseInt(st.nextToken());
             char letter = st.nextToken().charAt(0);
             idx = (idx + N*100 - turn) % N;
-            // System.out.printf("turn후 idx: %d, turn: %d, letter: %s, 기존 letter: %s\n", idx, turn, letter, wheel[idx]);
             if ((wheel[idx] != '?' && wheel[idx] != letter) || (wheel[idx] != letter && occurrences.get(letter) != null)) {
                failed = true;
             } else {
