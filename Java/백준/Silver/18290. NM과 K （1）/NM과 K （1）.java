@@ -63,7 +63,7 @@ public class Main {
     private static void generateCombinations(int depth, int start, Node[] result) {
         if (depth == K) {
             if (noAdjacent(result)) {
-                updateMaxSum(Arrays.copyOf(result, K));
+                updateMaxSum(result);
             }
             return;
         }
