@@ -43,10 +43,6 @@ public class Main {
             this.data = data;
         }
 
-        @Override
-        public String toString() {
-            return "("+y+","+x+")";
-        }
     }
 
     private static void updateMaxSum(Node[] result) {
