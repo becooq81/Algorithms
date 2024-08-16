@@ -31,10 +31,8 @@ class Solution {
 
     private static void solve(int[][] ingredients, int start, int L, int calories, int score) {
         maxScore = Math.max(score, maxScore);
-        // System.out.println("Max score: "+maxScore);
         for (int i = start; i < ingredients.length; i++) {
             if (calories + ingredients[i][1] <= L) {
-                // System.out.printf("%d번째 재료: 칼로리: %d, 점수: %d\n", i, ingredients[i][1], ingredients[i][0]);
                 solve(ingredients, i+1, L, calories + ingredients[i][1], score + ingredients[i][0]);
             }
         }
