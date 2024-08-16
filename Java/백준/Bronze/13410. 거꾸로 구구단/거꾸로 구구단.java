@@ -16,14 +16,7 @@ public class Main {
 
         for (int i = 1; i <= K; i++) {
             Integer num = N * i;
-            ArrayDeque<Integer> ad = new ArrayDeque<>();
-            for (int j = 0; j < num.toString().length(); j++) {
-                ad.addFirst(num.toString().charAt(j) - '0');
-            }
-            String str = "";
-            while (!ad.isEmpty()) {
-                str += ad.pollFirst();
-            }
+            String str = new StringBuilder(num.toString()).reverse().toString();
             set.add(Integer.parseInt(str));
         }
 
