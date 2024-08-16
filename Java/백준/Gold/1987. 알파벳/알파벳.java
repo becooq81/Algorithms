@@ -35,8 +35,6 @@ public class Main {
     private static void dfs(int y, int x, int depth) {
         visited[grid[y][x] - 'A'] = depth;
 
-        // System.out.printf("y: %d, x: %d, val: %s, valToInt: %d, depth: %d\n", y, x, grid[y][x], grid[y][x] - 'A', depth);
-
         maxDepth = Math.max(depth, maxDepth);
         for (int i = 0; i < 4; i++) {
             int ny = y + dy[i];
@@ -44,8 +42,6 @@ public class Main {
 
             if (nx < 0 || ny < 0 || nx >= C || ny >= R) continue;
             if (0==visited[grid[ny][nx] - 'A']) {
-                // System.out.printf("   visiting y: %d, x: %d, val: %s, valToInt: %d, depth: %d\n", ny, nx, grid[ny][nx], grid[ny][nx] - 'A', depth);
-
                 dfs(ny, nx, depth+1);
                 visited[grid[ny][nx] - 'A'] = 0;
             }
