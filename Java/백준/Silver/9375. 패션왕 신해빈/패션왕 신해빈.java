@@ -16,7 +16,7 @@ public class Main {
             
             for (int i = 0; i < N; i++) {
                 StringTokenizer st = new StringTokenizer(br.readLine());
-                st.nextToken(); // skip the clothing name
+                st.nextToken();
                 String category = st.nextToken();
                 
                 categoryCount.put(category, categoryCount.getOrDefault(category, 0) + 1);
@@ -24,10 +24,10 @@ public class Main {
             
             int combinations = 1;
             for (int count : categoryCount.values()) {
-                combinations *= (count + 1); // (wearing an item from this category + not wearing)
+                combinations *= (count + 1); 
             }
             
-            sb.append(combinations - 1).append("\n"); // subtract the case where no clothes are worn
+            sb.append(combinations - 1).append("\n");
         }
         
         bw.write(sb.toString());
