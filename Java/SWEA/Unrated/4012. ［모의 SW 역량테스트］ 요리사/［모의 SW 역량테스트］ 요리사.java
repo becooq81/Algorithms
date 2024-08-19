@@ -35,7 +35,6 @@ public class Solution {
 
     private static void generateCombinations(int idx, int start, int[] result) {
         if (idx == result.length) {
-            // System.out.println(Arrays.toString(result));
             updateMinResult(result);
             return;
         }
@@ -47,28 +46,27 @@ public class Solution {
 
     private static void updateMinResult(int[] result) {
         int s1 =0, s2 = 0;
+        boolean[] selected = new boolean[result.length*2];
+        int[] res2 = new int[result.length];
         for (int i = 0; i < result.length; i++) {
             int x = result[i];
+            selected[x] = true;
             for (int j = i+1; j < result.length; j++) {
                 int y = result[j];
                 s1 += grid[x][y] + grid[y][x];
             }
         }
-        List<Integer> res2 = new ArrayList<>();
         int idx = 0;
         for (int i = 0; i < result.length*2; i++) {
-            if (idx < result.length && i == result[idx]) idx++;
-            else res2.add(i);
+            if (!selected[i]) res2[idx++] = i;
         }
         for (int i = 0; i < result.length; i++) {
-            int x = res2.get(i);
+            int x = res2[i];
             for (int j = i+1; j < result.length; j++) {
-                int y = res2.get(j);
+                int y = res2[j];
                 s2 += grid[x][y] + grid[y][x];
             }
         }
-        // System.out.println(res2.toString());
-        // System.out.println("  s1: "+ s1 +", s2: "+s2);
         minResult = Math.min(minResult, Math.abs(s1-s2));
     }
 
