@@ -30,8 +30,6 @@ public class Solution {
             }
 
             solve(0, N, nums, ops, new int[4], new int[N-1]);
-            // System.out.println(maxResult);
-            // System.out.println(minResult);
             sb.append("#").append(t+1).append(" ").append(maxResult-minResult);
             if (t != T-1) sb.append("\n");
         }
@@ -43,7 +41,6 @@ public class Solution {
     private static void solve(int idx, int depth, int[] nums, int[] ops, int[] visited, int[] result) {
         if (idx == depth-1) {
             updateMinMax(result, nums);
-            // System.out.print(Arrays.toString(result));
             return;
         }
 
@@ -65,7 +62,6 @@ public class Solution {
         }
         minResult = Math.min(sum, minResult);
         maxResult = Math.max(sum, maxResult);
-        // System.out.printf("current: %d, min: %d, max: %d\n", sum, minResult, maxResult);
     }
 
     private static int op(int idx, int a, int b) {
