@@ -38,19 +38,16 @@ public class Main {
         TreeMap<Integer, Integer> moving = new TreeMap<>();
         int sumWeight = 0;
         while (true) {
-            // System.out.println("TIME: " + time );
             for (int i = 0; i < (!trucks.isEmpty() ? trucks.firstKey() : n); i++) {
                 if (moves[i] >= w) {
                     sumWeight -= moving.get(i);
                     if (moves[n-1] >= w) return;
                     moves[i] = Integer.MIN_VALUE;
-                    // System.out.println("  나간다: "+ i);
                     moving.remove(i);       
                 }
                 
             }
             if (!trucks.isEmpty() && moving.size() < w && sumWeight + trucks.firstEntry().getValue() <= L)  {
-                // System.out.println("  이거 이제 출발합니다 "+trucks.firstKey());
                 moving.put(trucks.firstKey(), trucks.firstEntry().getValue());
                 sumWeight += trucks.pollFirstEntry().getValue();
             }
