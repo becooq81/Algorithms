@@ -1,5 +1,4 @@
 import java.util.*;
-import java.io.*;
 
 public class Solution {
     static int[] mountains;
@@ -23,27 +22,20 @@ public class Solution {
             boolean interval = false;
             int increasingCount = 0;
             for (int i = 1; i < N; i++) {
-                // System.out.print(i+": ");
-
                 if (mountains[i-1] < mountains[i]) {
                     if (!increasing) increasingCount=0;
                     increasing = true;
                     interval = false;
                     increasingCount++;
-                    // System.out.println(" 전거보다 큼");
                 } else {
                     if (increasing) {
                         increasing = false;
                         interval = true;
                         ans+= increasingCount;
-                        //increasingCount = 0;
-                        // System.out.println(" 커지는 중이였는데 작아짐");
                     } else if (interval) {
                         ans+= increasingCount;
-                        // System.out.println("  계속 작아지는중");
                     }
                 }
-                // System.out.println("ANS: "+ans);
             }
 
             sb.append("#").append(t+1).append(" ").append(ans);
