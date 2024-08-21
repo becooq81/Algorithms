@@ -5,7 +5,7 @@ public class Solution {
  
     static int[] dy = {0, 0, -1, 1};
     static int[] dx = {-1, 1, 0, 0};
-    static int N, ans[][], grid[][];
+    static int N, grid[][];
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -25,7 +25,6 @@ public class Solution {
                     grid[i][j++] = Integer.parseInt(st.nextToken());
                 }
             }
-            ans = new int[N][N];
             rotate(moveIdx(move));
             solve();
             rotateBack(moveIdx(move));
