@@ -25,17 +25,14 @@ public class Main {
         while (!trucks.isEmpty() || !schedule.isEmpty()) {
             time ++;
             if (!schedule.isEmpty() && time - schedule.firstKey() >= w) {
-                // System.out.println("Removing: "+schedule.firstEntry().getValue());
                 weight -= schedule.pollFirstEntry().getValue();
             }
             if (!trucks.isEmpty() && weight + trucks.peek() <= L) {
-                // System.out.println("ADDING: "+trucks.peek());
                 int currWeight = trucks.pollFirst();
                 schedule.put(time, currWeight);
                 weight += currWeight;
             }
             
-            // System.out.printf("time: %d, weight: %d\n", time, weight);
 
         }
         sb.append(time);
