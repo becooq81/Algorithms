@@ -3,62 +3,45 @@ import java.util.*;
 
 public class Main {   
 
-    static int n, w, L, time;
-
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
 
-        n = Integer.parseInt(st.nextToken());
-        w = Integer.parseInt(st.nextToken());
-        L = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
+        int w = Integer.parseInt(st.nextToken());
+        int L = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
-
-        int idx = 0;
-        int[] moves = new int[n];
-
-        TreeMap<Integer, Integer> trucks = new TreeMap<>();
+        ArrayDeque<Integer> trucks = new ArrayDeque<>();
+        TreeMap<Integer, Integer> schedule = new TreeMap<>();
         while (st.hasMoreTokens()) {
-            int truck = Integer.parseInt(st.nextToken());
-            trucks.put(idx++, truck);
+            trucks.offerLast(Integer.parseInt(st.nextToken()));
         }
+        int time = 0;
+        int weight = 0;
 
-        solve(trucks, moves);
-        time++;
-        br.close();
+        while (!trucks.isEmpty() || !schedule.isEmpty()) {
+            time ++;
+            if (!schedule.isEmpty() && time - schedule.firstKey() >= w) {
+                // System.out.println("Removing: "+schedule.firstEntry().getValue());
+                weight -= schedule.pollFirstEntry().getValue();
+            }
+            if (!trucks.isEmpty() && weight + trucks.peek() <= L) {
+                // System.out.println("ADDING: "+trucks.peek());
+                int currWeight = trucks.pollFirst();
+                schedule.put(time, currWeight);
+                weight += currWeight;
+            }
+            
+            // System.out.printf("time: %d, weight: %d\n", time, weight);
+
+        }
         sb.append(time);
         bw.write(sb.toString());
         bw.flush();
+        br.close();
     }
-
-    private static void solve(TreeMap<Integer, Integer> trucks,int[] moves) {
-        TreeMap<Integer, Integer> moving = new TreeMap<>();
-        int sumWeight = 0;
-        while (true) {
-            for (int i = 0; i < (!trucks.isEmpty() ? trucks.firstKey() : n); i++) {
-                if (moves[i] >= w) {
-                    sumWeight -= moving.get(i);
-                    if (moves[n-1] >= w) return;
-                    moves[i] = Integer.MIN_VALUE;
-                    moving.remove(i);       
-                }
-                
-            }
-            if (!trucks.isEmpty() && moving.size() < w && sumWeight + trucks.firstEntry().getValue() <= L)  {
-                moving.put(trucks.firstKey(), trucks.firstEntry().getValue());
-                sumWeight += trucks.pollFirstEntry().getValue();
-            }
-            for (int i = 0; i < (!trucks.isEmpty() ? trucks.firstKey() : n); i++) {
-                moves[i]++;
-            }
-
-            time++;
-        }
-    }
-
-
 
 }
