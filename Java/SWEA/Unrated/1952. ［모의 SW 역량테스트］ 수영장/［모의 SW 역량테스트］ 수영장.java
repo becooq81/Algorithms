@@ -29,7 +29,7 @@ public class Solution {
                 usage[idx++] = Integer.parseInt(st.nextToken());
             }
 
-            generatePermutations(0, 0, new int[12]);
+            generatePermutations(0, 0);
 
             sb.append("#").append(t + 1).append(" ").append(ans);
             if (t != T - 1) sb.append("\n");
@@ -40,24 +40,23 @@ public class Solution {
         br.close();
     }
 
-    static void generatePermutations(int depth, int sum, int[] result) {
+    static void generatePermutations(int depth, int sum) {
         if (depth >= 12) {
             ans = Math.min(ans, sum);
             return;
         }
         if (usage[depth] == 0) {
-            generatePermutations(depth+1, sum, result);
+            generatePermutations(depth+1, sum);
         }
         else {
             for (int i = 0; i < prices.length; i++) {
-                result[depth] = i;
                 if (i == 0) {
-                    generatePermutations(depth + 1, sum + usage[depth] * prices[ONE_DAY], result);
+                    generatePermutations(depth + 1, sum + usage[depth] * prices[ONE_DAY]);
                 } else {
                     int skip = 1;
                     if (i == THREE_MONTHS) skip += 2;
                     else if (i == ONE_YEAR) skip += 12;
-                    generatePermutations(depth + skip, sum + prices[i], result);
+                    generatePermutations(depth + skip, sum + prices[i]);
                 }
             }
         }
