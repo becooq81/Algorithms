@@ -67,7 +67,7 @@ public class Solution {
 
             for (int i = 0; i < N - 2; i++) {
                 for (int j = 1; j < N - 1; j++) {
-                    Arrays.fill(visited, false); // Reset visited array
+                    Arrays.fill(visited, false); 
                     dfs(i, j, 0, i, j);
                 }
             }
