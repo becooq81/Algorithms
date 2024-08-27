@@ -24,7 +24,7 @@ public class Solution {
                 for (int i = 0; i < 8; i++) {
                     int ny = y + DY[i];
                     int nx = x + DX[i];
-                    if (ny >= 0 && nx >= 0 && ny < N && nx < N && grid[ny][nx] == EMPTY && !visited[ny][nx]) {
+                    if (validateCoordinate(ny, nx) && grid[ny][nx] == EMPTY && !visited[ny][nx]) {
                         queue.add(new int[] {ny, nx});
                         visited[ny][nx] = true;
                     }
@@ -32,13 +32,17 @@ public class Solution {
             }    
         }
     }
+    
+    static boolean validateCoordinate(int y, int x) {
+        return y >= 0 && x >= 0 && y < N && x < N;
+    }
 
     static int findNearMines(int y, int x) {
         int nearMines = 0;
         for (int i = 0; i < 8; i++) {
             int ny = y + DY[i];
             int nx = x + DX[i];
-            if (ny >= 0 && nx >= 0 && ny < N && nx < N && grid[ny][nx] == LAND_MINE) {
+            if (validateCoordinate(ny, nx) && grid[ny][nx] == LAND_MINE) {
                 nearMines ++;
             }
         }
