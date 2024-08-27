@@ -1,11 +1,14 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Solution {
     static final int[] DY = {1, 1, -1, -1}, DX = {1, -1, -1, 1};
-    static int grid[][], ans = -1, N;
+    static int[][] grid;
+    static int ans, N;
+    static boolean[] visited;
+    static int[] count;
 
-    static void dfs(int y, int x, int dir, int[] count, int startY, int startX, boolean[] visited) {
+    static void dfs(int y, int x, int dir, int startY, int startX) {
         if (dir == 3 && y == startY && x == startX) {
             ans = Math.max(ans, sum(count));
             return;
@@ -21,20 +24,16 @@ public class Solution {
                 if (currDir == 2 && count[currDir] >= count[0]) continue;
 
                 visited[grid[ny][nx]] = true;
-                count[currDir] ++;
-                dfs(ny, nx, currDir, count, startY, startX, visited);
+                count[currDir]++;
+                dfs(ny, nx, currDir, startY, startX);
                 visited[grid[ny][nx]] = false;
-                count[currDir] --;
+                count[currDir]--;
             }
         }
     }
 
     static int sum(int[] count) {
-        int s = 0;
-        for (int c : count) {
-            s += c;
-        }
-        return s;
+        return count[0] + count[1] + count[2] + count[3];
     }
 
     static int nextDir(int dir, int move) {
@@ -56,17 +55,20 @@ public class Solution {
             N = Integer.parseInt(br.readLine());
             ans = -1;
             grid = new int[N][N];
+            visited = new boolean[101];
+            count = new int[4];
+            
             for (int i = 0; i < N; i++) {
                 st = new StringTokenizer(br.readLine());
-                int j = 0;
-                while (st.hasMoreTokens()) {
-                    grid[i][j++] = Integer.parseInt(st.nextToken());
+                for (int j = 0; j < N; j++) {
+                    grid[i][j] = Integer.parseInt(st.nextToken());
                 }
             }
 
             for (int i = 0; i < N - 2; i++) {
                 for (int j = 1; j < N - 1; j++) {
-                    dfs(i, j, 0, new int[4], i, j, new boolean[101]);
+                    Arrays.fill(visited, false); // Reset visited array
+                    dfs(i, j, 0, i, j);
                 }
             }
 
@@ -78,5 +80,4 @@ public class Solution {
         bw.close();
         br.close();
     }
-
 }
