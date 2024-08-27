@@ -4,7 +4,7 @@ import java.util.*;
 public class Solution {
     
     static char grid[][];
-    static int N, ans = Integer.MAX_VALUE;
+    static int N;
     static boolean visited[][];
 
     static final int[] DX = {-1, 0, 1, -1, 1, -1, 0, 1};
@@ -60,7 +60,7 @@ public class Solution {
             for (int i = 0; i < N; i++) {
                 grid[i] = br.readLine().toCharArray();
             }
-            ans = 0;
+            int ans = 0;
 
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
