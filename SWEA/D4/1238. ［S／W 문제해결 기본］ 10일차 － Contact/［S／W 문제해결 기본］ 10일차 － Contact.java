@@ -2,25 +2,25 @@ import java.util.*;
 import java.io.*;
 
 public class Solution {
-    
-    static int N, start, visited[], maxDistance;
-    static ArrayList<ArrayList<Integer>> graph;
-    static Map<Integer, ArrayList<Integer>> distances;
+
+    static int N, start, maxDistance;
+    static ArrayList<Integer>[] graph;
+    static int[] visited;
 
     static void bfs() {
+        Arrays.fill(visited, -1);  
         ArrayDeque<Integer> queue = new ArrayDeque<>();
         queue.addLast(start);
-        visited[start] = 1;
+        visited[start] = 0;
 
         while (!queue.isEmpty()) {
             int current = queue.pollFirst();
-            maxDistance = Math.max(maxDistance, visited[current]);
-            if (!distances.containsKey(visited[current])) distances.put(visited[current], new ArrayList<>());
-            distances.get(visited[current]).add(current);
+            int currentDistance = visited[current];
+            maxDistance = Math.max(maxDistance, currentDistance);
 
-            for (int acquaintance : graph.get(current)) {
-                if (visited[acquaintance] == 0) {
-                    visited[acquaintance] = visited[current] + 1;
+            for (int acquaintance : graph[current]) {
+                if (visited[acquaintance] == -1) {
+                    visited[acquaintance] = currentDistance + 1;
                     queue.addLast(acquaintance);
                 }
             }
@@ -29,12 +29,13 @@ public class Solution {
 
     static int findMax() {
         int max = -1;
-        for (int i : distances.get(maxDistance)) {
-            max = Math.max(i, max);
+        for (int i = 0; i < visited.length; i++) {
+            if (visited[i] == maxDistance) {
+                max = Math.max(i, max);
+            }
         }
         return max;
     }
-
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -43,32 +44,27 @@ public class Solution {
         StringTokenizer st;
 
         for (int t = 0; t < 10; t++) {
-            graph = new ArrayList<>();
+            graph = new ArrayList[100];
             maxDistance = 0;
             visited = new int[100];
-            distances = new HashMap<>();
 
             st = new StringTokenizer(br.readLine());
             N = Integer.parseInt(st.nextToken());
             start = Integer.parseInt(st.nextToken()) - 1;
 
             for (int i = 0; i < 100; i++) {
-                graph.add(new ArrayList<>());
+                graph[i] = new ArrayList<>();
             }
-            
+
             st = new StringTokenizer(br.readLine());
             while (st.hasMoreTokens()) {
-                int a = Integer.parseInt(st.nextToken());
-                int b = Integer.parseInt(st.nextToken());
-                a--;
-                b--;
-                graph.get(a).add(b);
+                int a = Integer.parseInt(st.nextToken()) - 1;
+                int b = Integer.parseInt(st.nextToken()) - 1;
+                graph[a].add(b);
             }
 
-
             bfs();
-            sb.append("#").append(t + 1).append(" ").append(findMax()+1);
-            if (t != 9) sb.append("\n");
+            sb.append("#").append(t + 1).append(" ").append(findMax() + 1).append("\n");
         }
         bw.write(sb.toString());
         bw.flush();
