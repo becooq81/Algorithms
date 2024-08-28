@@ -19,7 +19,7 @@ public class Solution {
             maxDistance = Math.max(maxDistance, currentDistance);
 
             for (int acquaintance : graph[current]) {
-                if (visited[acquaintance] == -1) {
+                if (visited[acquaintance] == -1) { // If not visited
                     visited[acquaintance] = currentDistance + 1;
                     queue.addLast(acquaintance);
                 }
@@ -48,13 +48,13 @@ public class Solution {
             maxDistance = 0;
             visited = new int[100];
 
-            st = new StringTokenizer(br.readLine());
-            N = Integer.parseInt(st.nextToken());
-            start = Integer.parseInt(st.nextToken()) - 1;
-
             for (int i = 0; i < 100; i++) {
                 graph[i] = new ArrayList<>();
             }
+
+            st = new StringTokenizer(br.readLine());
+            N = Integer.parseInt(st.nextToken());
+            start = Integer.parseInt(st.nextToken()) - 1;
 
             st = new StringTokenizer(br.readLine());
             while (st.hasMoreTokens()) {
