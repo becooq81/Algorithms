@@ -55,10 +55,7 @@ public class Solution {
 
             Set<Integer> ans = new HashSet<>();
             for (int i = 1; i <= N; i++) {
-                findSet(i);
-            }
-            for (int i = 1; i <= N; i++) {
-                ans.add(parents[i]);
+                ans.add(findSet(i));
             }
             sb.append("#").append(t + 1).append(" ").append(ans.size());
             if (t != T - 1) sb.append("\n");
