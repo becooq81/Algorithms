@@ -3,14 +3,14 @@ import java.io.*;
 
 public class Main {
     static int N, M, size[], parents[], ans;
-    static Map<Integer, ArrayList<Integer>> friendships;
+    static ArrayList<Integer>[] friendships;
 
     static void dfs(int depth, int i, boolean[] visited) {
         if (ans == 1 || depth >= 5) {
             ans = 1;
             return;
         }
-        for (int friend : friendships.get(i)) {
+        for (int friend : friendships[i]) {
             if (!visited[friend]) {
                 visited[friend] = true;
                 dfs(depth + 1, friend, visited);
@@ -27,18 +27,17 @@ public class Main {
 
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-
-        friendships = new HashMap<>();
+        friendships =new ArrayList[N];
         for (int i = 0; i < N; i++) {
-            friendships.put(i, new ArrayList<>());
+            friendships[i] = new ArrayList<>();
         }
 
         for (int m = 0; m < M; m++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            friendships.get(a).add(b);
-            friendships.get(b).add(a);
+            friendships[a].add(b);
+            friendships[b].add(a);
         }
         for (int i = 0; i < N; i++) {
             if (ans == 1) break;
