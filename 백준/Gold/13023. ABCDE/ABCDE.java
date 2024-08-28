@@ -3,10 +3,9 @@ import java.io.*;
 
 public class Main {
     static int N, M, size[], parents[], ans;
-    static boolean[] visited;
     static Map<Integer, ArrayList<Integer>> friendships;
 
-    static void dfs(int depth, int i) {
+    static void dfs(int depth, int i, boolean[] visited) {
         if (ans == 1 || depth >= 5) {
             ans = 1;
             return;
@@ -14,7 +13,7 @@ public class Main {
         for (int friend : friendships.get(i)) {
             if (!visited[friend]) {
                 visited[friend] = true;
-                dfs(depth + 1, friend);
+                dfs(depth + 1, friend, visited);
                 visited[friend] = false;       
             }
         }
@@ -41,11 +40,9 @@ public class Main {
             friendships.get(a).add(b);
             friendships.get(b).add(a);
         }
-        visited = new boolean[N];
         for (int i = 0; i < N; i++) {
             if (ans == 1) break;
-            Arrays.fill(visited, false);
-            dfs(0, i);
+            dfs(0, i, new boolean[N]);
         }
         
         sb.append(ans);
