@@ -7,8 +7,7 @@ public class Main {
     static Map<Integer, ArrayList<Integer>> friendships;
 
     static void dfs(int depth, int i) {
-        if (ans == 1 || friendships.get(i) == null) return;
-        if (depth >= 5) {
+        if (ans == 1 || depth >= 5) {
             ans = 1;
             return;
         }
@@ -31,18 +30,21 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         friendships = new HashMap<>();
+        for (int i = 0; i < N; i++) {
+            friendships.put(i, new ArrayList<>());
+        }
 
         for (int m = 0; m < M; m++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            friendships.computeIfAbsent(a, k -> new ArrayList<>()).add(b);
-            friendships.computeIfAbsent(b, k -> new ArrayList<>()).add(a);
+            friendships.get(a).add(b);
+            friendships.get(b).add(a);
         }
-
+        visited = new boolean[N];
         for (int i = 0; i < N; i++) {
             if (ans == 1) break;
-            visited = new boolean[N];
+            Arrays.fill(visited, false);
             dfs(0, i);
         }
         
