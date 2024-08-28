@@ -2,34 +2,37 @@ import java.util.*;
 import java.io.*;
 
 public class Solution {
-    
-    static int N, M, parents[], size[];
+
+    static int N, M, parents[], rank[];
 
     static void make() {
         parents = new int[N + 1];
-        size = new int[N + 1];
+        rank = new int[N + 1]; 
         for (int i = 1; i <= N; i++) {
             parents[i] = i;
-            size[i] = 1;
+            rank[i] = 0;
         }
     }
 
     static int findSet(int a) {
-        if (a == parents[a]) return a;
-        return parents[a] = findSet(parents[a]);
+        if (a != parents[a]) {
+            parents[a] = findSet(parents[a]);
+        }
+        return parents[a];
     }
 
     static void union(int a, int b) {
         int aRoot = findSet(a);
         int bRoot = findSet(b);
         if (aRoot == bRoot) return;
-        
-        if (size[aRoot] < size[bRoot]) {
+
+        if (rank[aRoot] < rank[bRoot]) {
             parents[aRoot] = bRoot;
-            size[bRoot] += size[aRoot];
+        } else if (rank[aRoot] > rank[bRoot]) {
+            parents[bRoot] = aRoot;
         } else {
             parents[bRoot] = aRoot;
-            size[aRoot] += size[bRoot];
+            rank[aRoot]++;
         }
     }
 
