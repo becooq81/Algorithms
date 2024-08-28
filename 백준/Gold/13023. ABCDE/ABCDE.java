@@ -4,8 +4,9 @@ import java.io.*;
 public class Main {
     static int N, M, size[], parents[], ans;
     static ArrayList<Integer>[] friendships;
+    static boolean visited[];
 
-    static void dfs(int depth, int i, boolean[] visited) {
+    static void dfs(int depth, int i) {
         if (ans == 1 || depth >= 5) {
             ans = 1;
             return;
@@ -13,7 +14,7 @@ public class Main {
         for (int friend : friendships[i]) {
             if (!visited[friend]) {
                 visited[friend] = true;
-                dfs(depth + 1, friend, visited);
+                dfs(depth + 1, friend);
                 visited[friend] = false;       
             }
         }
@@ -39,9 +40,11 @@ public class Main {
             friendships[a].add(b);
             friendships[b].add(a);
         }
+        visited = new boolean[N];
         for (int i = 0; i < N; i++) {
             if (ans == 1) break;
-            dfs(0, i, new boolean[N]);
+            Arrays.fill(visited, false);
+            dfs(0, i);
         }
         
         sb.append(ans);
