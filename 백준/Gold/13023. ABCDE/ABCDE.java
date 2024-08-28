@@ -7,17 +7,18 @@ public class Main {
     static boolean visited[];
 
     static void dfs(int depth, int i) {
-        if (ans == 1 || depth >= 5) {
+        if (ans == 1 || depth >= 4) {
             ans = 1;
             return;
         }
+        visited[i] = true;
         for (int friend : friendships[i]) {
             if (!visited[friend]) {
-                visited[friend] = true;
                 dfs(depth + 1, friend);
-                visited[friend] = false;       
+                if (ans == 1) return;
             }
         }
+        visited[i] = false;
     }
     
     public static void main(String[] args) throws IOException {
