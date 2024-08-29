@@ -9,13 +9,11 @@ public class Main {
     static void dfs(int start, int initial, int count, long res, int[] route, int[] cost, boolean visited[]) {
         if (count == N-1) {
             if (grid[start][initial] > 0) {
-                // System.out.println(Arrays.toString(route)+", "+Arrays.toString(cost)+", "+res);
                 ans = Math.min(res+grid[start][initial], ans);
             }
             return;
         }
 
-        // System.out.println("in dfs: "+start);
 
         for (int i = 0; i < N; i++) {
             if (grid[start][i] > 0 && !visited[i]) {
@@ -47,7 +45,6 @@ public class Main {
         }
 
         for (int i = 0; i < N; i++) {
-            // System.out.print("START: "+i);
             boolean[] visited = new boolean[N];
             visited[i] = true;
             dfs(i, i, 0, 0L, new int[N], new int[N], visited);
