@@ -1,66 +1,56 @@
 import java.util.*;
 import java.io.*;
+
 public class Main {
 
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringBuilder sb = new StringBuilder();
+    static final int DY[] = {-1, 1, 0, 0}, DX[] = {0, 0, -1, 1};
 
-    static int n, m;
-    static int[][] grid, distance, visited;
+    static int bfs(int N, int M, int[][] grid) {
+        int[][] distance = new int[N][M];
+        distance[0][0] = 1;
+        ArrayDeque<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[]{0, 0});
 
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
-
-    public static void main(String[] args) throws Exception {
-        String[] nm = br.readLine().split(" ");
-        n = Integer.parseInt(nm[0]);
-        m = Integer.parseInt(nm[1]);
-
-        grid = new int[n][m];
-
-        for (int i = 0; i < n; i++) {
-            String input = br.readLine();
-            for (int j = 0; j < m; j++) {
-                grid[i][j] = input.charAt(j)-'0';
-            }
-        }
-        distance = new int[n][m];
-        visited = new int[n][m];
-        sb.append(bfs(0,0));
-        System.out.append(sb);
-    }
-
-    private static int bfs(int startX, int startY) {
-        int[] start = {startX, startY};
-        LinkedList<int[]> queue = new LinkedList<>();
-        
-        distance[0][0]=1;
-        queue.add(start);
-        grid[startX][startY] = 0;
-        visited[startX][startY] = 1;
-        
         while (!queue.isEmpty()) {
-            int[] node = queue.removeFirst();
-            int x = node[0];
-            int y = node[1];
+            int[] node = queue.pollFirst();
 
-            if (x == n-1 && y == m-1) return distance[n-1][m-1]; 
+            if (node[0] == N-1 && node[1] == M-1) return distance[N-1][M-1];
 
             for (int i = 0; i < 4; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
+                int ny = DY[i] + node[0];
+                int nx = DX[i] + node[1];
 
-                if (nx >= 0 && nx < n && ny >= 0 && ny < m && grid[nx][ny] ==1 && visited[nx][ny] == 0) {
-                    
-                    grid[nx][ny] = 0;
-                    visited[nx][ny] =1;
-                    int[] newNode = {nx, ny};
-                    queue.add(newNode);
-                    distance[nx][ny] = distance[x][y]+1;
+                if (ny >= 0 && nx >= 0 && nx < M && ny < N && distance[ny][nx] == 0 && grid[ny][nx] == 1) {
+                    distance[ny][nx] = distance[node[0]][node[1]] + 1;
+                    queue.add(new int[]{ny, nx});
                 }
             }
         }
-
-        return 0;
+        return -1;
     }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int[][] grid = new int[N][M];
+        for (int i = 0; i < N; i++) {
+            char[] input = br.readLine().toCharArray();
+            for (int j = 0; j < M; j++) {
+                grid[i][j] = input[j] - '0';
+            }
+        }
+
+
+        sb.append(bfs(N, M, grid));
+        bw.write(sb.toString());
+        bw.flush();
+        br.close();
+        bw.close();
+    }
+
 }
