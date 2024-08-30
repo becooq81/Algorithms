@@ -24,13 +24,10 @@ public class Solution {
                 for (int i = 0; i < 8; i++) {
                     int ny = y + DY[i];
                     int nx = x + DX[i];
-                    if (validateCoordinate(ny, nx) && !visited[ny][nx]) {
-                        if (grid[ny][nx] == EMPTY) {
-                            queue.add(new int[] {ny, nx});
-                        }
+                    if (validateCoordinate(ny, nx) && grid[ny][nx] == EMPTY && !visited[ny][nx]) {
+                        queue.add(new int[] {ny, nx});
                         visited[ny][nx] = true;
                     }
-                    
                 }
             }    
         }
