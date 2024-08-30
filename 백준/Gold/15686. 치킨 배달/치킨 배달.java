@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int ans = Integer.MAX_VALUE, N, M, grid[][];
+    static int ans = Integer.MAX_VALUE, N, M;
     static List<int[]> houses = new ArrayList<>(), chickens = new ArrayList<>();
 
     static void generateCombinations(int depth, int start, int[] result) {
@@ -42,7 +42,6 @@ public class Main {
 
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        grid = new int[N][N];
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             int j = 0;
@@ -50,7 +49,7 @@ public class Main {
                 int cell = Integer.parseInt(st.nextToken());
                 if (cell == 1) houses.add(new int[] {i, j});
                 else if (cell == 2) chickens.add(new int[] {i, j});
-                grid[i][j++] = cell;
+                j++;
             }
         }
         generateCombinations(0, 0, new int[M]);
