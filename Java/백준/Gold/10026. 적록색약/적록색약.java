@@ -9,7 +9,6 @@ public class Main {
         ArrayDeque<int[]> queue = new ArrayDeque<>();
         queue.add(new int[]{startY, startX});
         visited[startY][startX] = true;
-        char startColor = grid[startY][startX];
 
         while (!queue.isEmpty()) {
             int[] node = queue.pollFirst();
@@ -18,10 +17,7 @@ public class Main {
                 int nx = node[1] + DX[i];
 
                 if (ny >= 0 && nx >= 0 && ny < N && nx < N && !visited[ny][nx]) {
-                    if (startColor == grid[ny][nx]) {
-                        visited[ny][nx] = true;
-                        queue.add(new int[]{ny, nx});
-                    } else if (colorBlind && ((startColor == 'R' && grid[ny][nx] == 'G') || (startColor == 'G' && grid[ny][nx] == 'R'))) {
+                    if (grid[startY][startX] == grid[ny][nx] || (colorBlind && ((grid[startY][startX] == 'R' && grid[ny][nx] == 'G') || (grid[startY][startX] == 'G' && grid[ny][nx] == 'R')))) {
                         visited[ny][nx] = true;
                         queue.add(new int[]{ny, nx});
                     }
