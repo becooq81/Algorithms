@@ -53,7 +53,6 @@ public class Main {
         queue.add(new int[]{startY, startX});
         visited[startY][startX]=1;
         char color = grid[startY][startX];
-        //System.out.printf("startX: %d, startY: %d, color: %s\n", startX, startY, color);
 
         while (!queue.isEmpty()) {
             int[] node = queue.removeFirst();
@@ -66,7 +65,6 @@ public class Main {
 
                 if (nx >= 0 && ny >= 0 && nx < N && ny < N && color == grid[ny][nx] && visited[ny][nx] == 0) {
                     visited[ny][nx] = 1;
-                    //System.out.printf("     nx: %d, ny: %d, color: %s, visited: %d\n", nx, ny, grid[ny][nx], visited[ny][nx]);
 
                     queue.add(new int[] {ny, nx});
                 }
@@ -81,7 +79,6 @@ public class Main {
         char color = grid[startY][startX];
         int redgreen = (color == 'G' || color == 'R') ? 1 : 0;
 
-        //System.out.printf("startX: %d, startY: %d, color: %s, redgreen: %d\n", startX, startY, color, redgreen);
 
         while (!queue.isEmpty()) {
             int[] node = queue.removeFirst();
@@ -96,7 +93,6 @@ public class Main {
                     int currRedgreen = (grid[ny][nx] == 'G' || grid[ny][nx] == 'R') ? 1 : 0;
                     if (currRedgreen == redgreen) {
                         visited[ny][nx] = 1;
-                        //System.out.printf("     nx: %d, ny: %d, color: %s, visited: %d, currRedgreen: %d\n", nx, ny, grid[ny][nx], visited[ny][nx], currRedgreen);
 
                         queue.add(new int[] {ny, nx});
                     }
