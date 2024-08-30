@@ -2,102 +2,68 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringBuilder sb = new StringBuilder();
 
-    static int N;
-    static char[][] grid;
-    static int[][] visited;
+    static final int DY[] = {-1, 1, 0, 0}, DX[] = {0, 0, -1, 1};
 
-    static int[] dx = {0, 0, -1, 1};
-    static int[] dy = {-1, 1, 0, 0};
-
-    public static void main(String[] args) throws Exception {
-        N = Integer.parseInt(br.readLine());
-        grid = new char[N][N];
-        visited = new int[N][N];
-
-        for (int i = 0; i < N; i++) {
-            String input = br.readLine();
-            for (int j = 0; j < N; j++) {
-                grid[i][j] = input.charAt(j);
-            }
-        }
-
-        int normalCount = 0;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (visited[j][i] == 0) {
-                    normalViewBfs(i, j);
-                    normalCount++;
-                }
-            }
-        }
-        visited = new int[N][N];
-        int redgreenCount = 0;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (visited[j][i] == 0) {
-                    redGreenViewBfs(i, j);
-                    redgreenCount++;
-                }
-            }
-        }
-        sb.append(normalCount).append("\n");
-        sb.append(redgreenCount);
-        System.out.append(sb);
-    }
-
-    private static void normalViewBfs(int startX, int startY) {
-        LinkedList<int[]> queue = new LinkedList<>();
+    static void bfs(int startY, int startX, boolean colorBlind, int N, char[][] grid, boolean[][] visited) {
+        ArrayDeque<int[]> queue = new ArrayDeque<>();
         queue.add(new int[]{startY, startX});
-        visited[startY][startX]=1;
-        char color = grid[startY][startX];
+        visited[startY][startX] = true;
+        char startColor = grid[startY][startX];
 
         while (!queue.isEmpty()) {
-            int[] node = queue.removeFirst();
-            int x = node[1];
-            int y = node[0];
-
+            int[] node = queue.pollFirst();
             for (int i = 0; i < 4; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
+                int ny = node[0] + DY[i];
+                int nx = node[1] + DX[i];
 
-                if (nx >= 0 && ny >= 0 && nx < N && ny < N && color == grid[ny][nx] && visited[ny][nx] == 0) {
-                    visited[ny][nx] = 1;
-
-                    queue.add(new int[] {ny, nx});
-                }
-            }   
-        }
-    }
-
-    private static void redGreenViewBfs(int startX, int startY) {
-        LinkedList<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{startY, startX});
-        visited[startY][startX]=1;
-        char color = grid[startY][startX];
-        int redgreen = (color == 'G' || color == 'R') ? 1 : 0;
-
-
-        while (!queue.isEmpty()) {
-            int[] node = queue.removeFirst();
-            int x = node[1];
-            int y = node[0];
-
-            for (int i = 0; i < 4; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
-
-                if (nx >= 0 && ny >= 0 && nx < N && ny < N && visited[ny][nx] == 0) {
-                    int currRedgreen = (grid[ny][nx] == 'G' || grid[ny][nx] == 'R') ? 1 : 0;
-                    if (currRedgreen == redgreen) {
-                        visited[ny][nx] = 1;
-
-                        queue.add(new int[] {ny, nx});
+                if (ny >= 0 && nx >= 0 && ny < N && nx < N && !visited[ny][nx]) {
+                    if (startColor == grid[ny][nx]) {
+                        visited[ny][nx] = true;
+                        queue.add(new int[]{ny, nx});
+                    } else if (colorBlind && ((startColor == 'R' && grid[ny][nx] == 'G') || (startColor == 'G' && grid[ny][nx] == 'R'))) {
+                        visited[ny][nx] = true;
+                        queue.add(new int[]{ny, nx});
                     }
                 }
-            }   
+            }
         }
     }
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+
+        int N = Integer.parseInt(br.readLine());
+        char[][] grid = new char[N][N];
+        for (int i = 0; i < N; i++) {
+            grid[i] = br.readLine().toCharArray();
+        }
+
+        boolean[][] visited = new boolean[N][N];
+        boolean[][] colorBlindVisited = new boolean[N][N];
+
+        int segments = 0;
+        int colorBlindSegments = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (!visited[i][j]) {
+                    segments++;
+                    bfs(i, j, false, N, grid, visited);
+                }
+                if (!colorBlindVisited[i][j]) {
+                    colorBlindSegments++;
+                    bfs(i, j, true, N, grid, colorBlindVisited);
+                }
+            }
+        }
+
+        sb.append(segments).append(" ").append(colorBlindSegments);
+        bw.write(sb.toString());
+        bw.flush();
+        br.close();
+        bw.close();
+    }
+
 }
