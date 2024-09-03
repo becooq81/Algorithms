@@ -16,7 +16,6 @@ public class Solution {
                 for (int j =0 ; j < N; j++) {
                     int[] res = visitAllPointsWithinManhattanDistance(i, j, k);
                     if (res[0] >= cost) {
-                        // System.out.printf("k: %d, i: %d, j: %d, cost: %d, paid: %d, houses: %d\n", k, i, j, cost, res[0], res[1]);
                         ans = Math.max(ans, res[1]);
                     }
                 }
