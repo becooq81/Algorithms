@@ -3,33 +3,34 @@ import java.io.*;
 
 public class Main {
     static BufferedReader br;
-    static StringBuilder sb;
     static BufferedWriter bw;
     static StringTokenizer st;
-    static int N, M, k, parents[], size[], friendships[][];
+    static int N, M, k;
     static long[] friendFees;
+    static int[] parents, size;
+
     static void makeSet() {
-        parents = new int[N+1];
-        size = new int[N+1];
+        parents = new int[N + 1];
+        size = new int[N + 1];
         Arrays.fill(parents, -1);
         Arrays.fill(size, 1);
     }
 
     static int findSet(int a) {
         if (parents[a] < 0) return a;
-        return parents[a] = findSet(parents[a]);
+        return parents[a] = findSet(parents[a]); // Path compression
     }
 
     static boolean union(int a, int b) {
-        int aRoot = findSet(a);
-        int bRoot = findSet(b);
-        if (aRoot == bRoot) return false;
-        if (size[aRoot] < size[bRoot]) {
-            size[bRoot] += size[aRoot];
-            parents[aRoot] = bRoot;
+        int rootA = findSet(a);
+        int rootB = findSet(b);
+        if (rootA == rootB) return false;
+        if (size[rootA] < size[rootB]) {
+            size[rootB] += size[rootA];
+            parents[rootA] = rootB;
         } else {
-            size[aRoot] += size[bRoot];
-            parents[bRoot] = aRoot;
+            size[rootA] += size[rootB];
+            parents[rootB] = rootA;
         }
         return true;
     }
@@ -37,55 +38,45 @@ public class Main {
     public static void main(String[] args) throws IOException {
         br = new BufferedReader(new InputStreamReader(System.in));
         bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        sb = new StringBuilder();
         st = new StringTokenizer(br.readLine());
 
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
 
-        friendFees = new long[N];
+        friendFees = new long[N + 1];
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
+        for (int i = 1; i <= N; i++) {
             friendFees[i] = Long.parseLong(st.nextToken());
         }
-        friendships = new int[M][2];
+
+        makeSet();
+
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
             int f1 = Integer.parseInt(st.nextToken());
             int f2 = Integer.parseInt(st.nextToken());
-            friendships[i][0] = f1;
-            friendships[i][1] = f2;
+            union(f1, f2);
         }
-        makeSet();
-        int cnt = 0;
-        for (int[] edge : friendships) {
-            if (union(edge[0], edge[1])) {
-                if (++cnt == N-1) break;
-            }
-        }
-        for (int i = 1; i <= N; i++) {
-            findSet(i);
-        }
-        
+
         long minCost = 0;
-        Map<Integer, List<Integer>> parentsMap = new HashMap<>();
+        Map<Integer, Long> componentMinCost = new HashMap<>();
+
         for (int i = 1; i <= N; i++) {
-            if (parents[i] < 0) parents[i] = i;
-            if (!parentsMap.containsKey(parents[i])) parentsMap.put(parents[i], new ArrayList<>());
-            parentsMap.get(parents[i]).add(i);
+            int root = findSet(i);
+            componentMinCost.put(root, Math.min(componentMinCost.getOrDefault(root, Long.MAX_VALUE), friendFees[i]));
         }
 
-        for (Map.Entry<Integer, List<Integer>> entry : parentsMap.entrySet()) {
-            long tmpCost = Long.MAX_VALUE;
-            for (int a : entry.getValue()) {
-                tmpCost = Math.min(friendFees[a-1], tmpCost);
-            }
-            minCost += tmpCost;
+        for (long cost : componentMinCost.values()) {
+            minCost += cost;
         }
-        sb.append(minCost <= k ? minCost : "Oh no");
 
-        bw.write(sb.toString());
+        if (minCost <= k) {
+            bw.write(String.valueOf(minCost));
+        } else {
+            bw.write("Oh no");
+        }
+
         bw.flush();
         br.close();
         bw.close();
