@@ -35,7 +35,7 @@ public class Main {
             for (int d = 0; d < 4; d++) {
                 int ny = DY[d] + y;
                 int nx = DX[d] + x;
-                if (isValidCoordinate(ny, nx) && !visited[ny][nx] && minCost[ny][nx] > cost) {
+                if (isValidCoordinate(ny, nx) && !visited[ny][nx] && minCost[ny][nx] > cost + grid[ny][nx]) {
                     minCost[ny][nx] = cost + grid[ny][nx];
                     pq.offer(new int[]{ny, nx, minCost[ny][nx]});
                 }
@@ -71,7 +71,6 @@ public class Main {
             sb.append("Problem ").append(t++).append(": ").append(ans).append("\n");
         }
 
-        // sb.append();
 
         bw.write(sb.toString());
         bw.flush();
