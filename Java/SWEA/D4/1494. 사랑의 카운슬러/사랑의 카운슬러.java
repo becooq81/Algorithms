@@ -10,11 +10,9 @@ public class Solution {
     static int N, worms[][];
     static long ans;
     static Set<Integer> visited = new HashSet<>();
-//    static boolean[] visited;
 
 
     static void check(int bitmask) {
-        // res represents the selected worm coordinates
         int[] notChosen = new int[N/2];
         int[] chosen = new int[N/2];
         int idxChosen = 0, idxNotChosen = 0;
@@ -35,8 +33,7 @@ public class Solution {
 
     static void genComb(int depth, int start, int bitmask) {
         if (depth == N/2) {
-            // System.out.println(Arrays.toString(bitmask));
-            // if (visited.contains(bitmask)) return;
+            if (visited.contains(bitmask)) return;
 
             check(bitmask);
             
