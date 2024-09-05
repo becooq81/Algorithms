@@ -13,7 +13,7 @@ public class Solution {
 
     static void solve(int depth, int start) {
         if (depth == N/2) {
-            long x = 0, y =0;
+            long x = 0, y = 0;
             for (int i = 0; i < N; i++) {
                 if (visited[i]) {
                     x += worms[i][0];
@@ -25,6 +25,7 @@ public class Solution {
                 }
             }
             ans = Math.min(x * x + y * y, ans);
+            return;
         }
         for (int i = start; i < N; i++) {
             visited[start] = true;
