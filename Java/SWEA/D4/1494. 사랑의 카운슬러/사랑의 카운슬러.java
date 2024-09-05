@@ -36,7 +36,7 @@ public class Solution {
     static void genComb(int depth, int start, int bitmask) {
         if (depth == N/2) {
             // System.out.println(Arrays.toString(bitmask));
-            if (visited.contains(bitmask)) return;
+            // if (visited.contains(bitmask)) return;
 
             check(bitmask);
             
