@@ -2,85 +2,87 @@ import java.util.*;
 import java.io.*;
 
 public class Solution {
-    static BufferedReader br;
-    static BufferedWriter bw;
-    static StringBuilder output;
-    static StringTokenizer st;
-    static int N, M;
+    
+    static final int DY[] = {-1, 1, 0, 0}, DX[] = {0, 0, -1, 1};
+
+    static int N, M, ans, visited[][];
     static char[][] grid;
-
-    static final int[] DY = {-1, 1, 0, 0}, DX = {0, 0, -1, 1};
-
-    static int bfsFromW() {
-        ArrayDeque<int[]> queue = new ArrayDeque<>();
-        int[][] distance = new int[N][M];
-        for (int[] row : distance) Arrays.fill(row, Integer.MAX_VALUE);
-        
+    static StringBuilder output;
+    static ArrayDeque<int[]> queue =new ArrayDeque<>();
+    
+    private static void solve() {
+        visited = new int[N][M];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                if (grid[i][j] == 'W') {
-                    queue.add(new int[] {i, j});
-                    distance[i][j] = 0;
-                }
+                if (grid[i][j] == 'W') queue.add(new int[]{i, j});
             }
         }
+        bfs();
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                ans += visited[i][j];
+            }
+        }
+    }
+
+    private static void bfs() {
+        
 
         while (!queue.isEmpty()) {
+
             int[] node = queue.pollFirst();
-            int y = node[0];
-            int x = node[1];
-
+            // System.out.println("Exploring: "+node[0]+","+node[1] +": "+visited[node[0]][node[1]]);
+            
             for (int d = 0; d < 4; d++) {
-                int ny = DY[d] + y;
-                int nx = DX[d] + x;
+                int ny = DY[d] + node[0];
+                int nx = DX[d] + node[1];
 
-                if (isValidCoordinate(ny, nx) && distance[ny][nx] == Integer.MAX_VALUE) {
-                    distance[ny][nx] = distance[y][x] + 1;
+                if (isValidCoordinate(ny, nx) && grid[ny][nx] == 'L' && visited[ny][nx] == 0) {
+                    visited[ny][nx] = visited[node[0]][node[1]] + 1;
+                    // System.out.println("  visiting: "+ny+","+nx+": "+visited[ny][nx]);
                     queue.add(new int[] {ny, nx});
                 }
             }
         }
-
-        int totalDistance = 0;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                if (grid[i][j] == 'L') {
-                    if (distance[i][j] == Integer.MAX_VALUE) return -1;
-                    totalDistance += distance[i][j];
-                }
-            }
-        }
-        return totalDistance;
     }
 
-    static boolean isValidCoordinate(int y, int x) {
+    private static boolean isValidCoordinate(int y, int x) {
         return y >= 0 && x >= 0 && y < N && x < M;
     }
 
     public static void main(String[] args) throws IOException {
-        br = new BufferedReader(new InputStreamReader(System.in));
-        bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        output = new StringBuilder();
-        st = new StringTokenizer(br.readLine());
+        init();
+        output();
+    }
 
-        int T = Integer.parseInt(st.nextToken());
+    private static void output() throws IOException {
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        bw.write(output.toString());
+        bw.flush();
+        bw.close();
+    }
+
+    private static void init() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        output = new StringBuilder();
+
+        int T = Integer.parseInt(br.readLine());
         for (int t = 1; t <= T; t++) {
             st = new StringTokenizer(br.readLine());
             N = Integer.parseInt(st.nextToken());
             M = Integer.parseInt(st.nextToken());
 
+            ans = 0;
             grid = new char[N][M];
             for (int i = 0; i < N; i++) {
                 grid[i] = br.readLine().toCharArray();
             }
+            solve();
 
-            int result = bfsFromW();
-            output.append("#").append(t).append(" ").append(result);
-            if (t != T) output.append("\n");
+            output.append("#").append(t).append(" ").append(ans).append("\n");
         }
-        bw.write(output.toString());
-        bw.flush();
         br.close();
-        bw.close();
+    
     }
 }
