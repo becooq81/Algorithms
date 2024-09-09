@@ -2,60 +2,75 @@ import java.util.*;
 import java.io.*;
 
 public class Solution {
-    static BufferedReader br;
-    static BufferedWriter bw;
+
+    static int N, ans, weights[], total;
     static StringBuilder output;
-    static StringTokenizer st;
 
-    static int N, ans, weights[];
-    static Map<String, Integer> memo;
+    static void solve() {
+        dfs(0, 0, 0, new boolean[N]);
+    }
 
-    static int dfs(int depth, int leftSum, int rightSum, int visitedMask) {
-        if (leftSum < rightSum) return 0; 
-        if (depth == N) return 1; 
-
-        String key = depth + "," + leftSum + "," + rightSum + "," + visitedMask;
-        if (memo.containsKey(key)) return memo.get(key);
-
-        int count = 0;
-        for (int i = 0; i < N; i++) {
-            if ((visitedMask & (1 << i)) == 0) { 
-                int newMask = visitedMask | (1 << i);
-                count += dfs(depth + 1, leftSum + weights[i], rightSum, newMask);
-                count += dfs(depth + 1, leftSum, rightSum + weights[i], newMask);
-            }
+    static void dfs(int depth, int left, int right, boolean[] used) {
+        if (depth == N) {
+            if (left >= right) ans ++;
+            return;
         }
 
-        memo.put(key, count);
-        return count;
+        if (total - left < left) {
+            // System.out.print("depth: "+depth);
+            int f = 1;
+            for (int i = 1; i <= N - depth; i++) {
+                f *= i;
+            }
+            // System.out.println(", 2^N: "+Math.pow(2, N - depth - 1)+", N!: "+f);
+            ans += Math.pow(2, N - depth) * f;
+            return;
+        }
+
+        for (int i = 0; i < N; i++) {
+            if (used[i]) continue;
+            used[i] = true;
+            dfs(depth + 1, left + weights[i], right, used);
+            if (left >= right + weights[i]) dfs(depth + 1, left, right + weights[i], used);
+            used[i] = false;
+        }
     }
 
     public static void main(String[] args) throws IOException {
-        br = new BufferedReader(new InputStreamReader(System.in));
-        bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        output = new StringBuilder();
-        st = new StringTokenizer(br.readLine());
+        init();
+        output();
+    }
 
-        int T = Integer.parseInt(st.nextToken());
-        for (int t = 1; t <= T; t++) {
-            st = new StringTokenizer(br.readLine());
-            N = Integer.parseInt(st.nextToken());
-
-            weights = new int[N];
-            st = new StringTokenizer(br.readLine());
-            for (int i = 0; i < N; i++) {
-                weights[i] = Integer.parseInt(st.nextToken());
-            }
-
-            memo = new HashMap<>();
-            ans = dfs(0, 0, 0, 0);
-
-            output.append("#").append(t).append(" ").append(ans);
-            if (t != T) output.append("\n");
-        }
+    private static void output() throws IOException {
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         bw.write(output.toString());
         bw.flush();
-        br.close();
         bw.close();
+    }
+
+    private static void init() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        output = new StringBuilder();
+
+        int T = Integer.parseInt(br.readLine());
+        for (int t = 1; t <= T; t++) {
+            ans = 0;
+            total = 0;
+            N = Integer.parseInt(br.readLine());
+            st = new StringTokenizer(br.readLine());
+            
+            weights = new int[N];
+            for (int i = 0; i < N; i++) {
+                weights[i] = Integer.parseInt(st.nextToken());
+                total += weights[i];
+            }
+
+            solve();
+
+            output.append("#").append(t).append(" ").append(ans).append("\n");
+        }
+        br.close();
+    
     }
 }
