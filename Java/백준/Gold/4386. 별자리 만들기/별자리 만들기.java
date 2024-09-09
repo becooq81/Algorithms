@@ -87,7 +87,6 @@ public class Main {
 
         sb.append(String.format("%.2f", cost));
          
-        // sb.append(time).append("\n").append(lastCheeseCount);
         bw.write(sb.toString());
         bw.flush();
         br.close();
