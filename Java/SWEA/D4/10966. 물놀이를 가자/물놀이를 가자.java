@@ -31,7 +31,6 @@ public class Solution {
         while (!queue.isEmpty()) {
 
             int[] node = queue.pollFirst();
-            // System.out.println("Exploring: "+node[0]+","+node[1] +": "+visited[node[0]][node[1]]);
             
             for (int d = 0; d < 4; d++) {
                 int ny = DY[d] + node[0];
@@ -39,7 +38,6 @@ public class Solution {
 
                 if (isValidCoordinate(ny, nx) && grid[ny][nx] == 'L' && visited[ny][nx] == 0) {
                     visited[ny][nx] = visited[node[0]][node[1]] + 1;
-                    // System.out.println("  visiting: "+ny+","+nx+": "+visited[ny][nx]);
                     queue.add(new int[] {ny, nx});
                 }
             }
