@@ -1,9 +1,8 @@
-import java.util.*;
 import java.io.*;
 
 public class Main {
 
-    static int N, stairs[], ans = Integer.MIN_VALUE;
+    static int N, stairs[];
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
