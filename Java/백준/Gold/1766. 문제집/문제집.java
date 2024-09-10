@@ -26,36 +26,26 @@ public class Main {
         }
     
 
-        TreeSet<Integer> queue = new TreeSet<>();
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
         for (int i = 1; i <= N; i++) {
             if (inDegree[i]==0) {
                 queue.add(i);
-                break;
             }
         }
 
         while (!queue.isEmpty()) {
 
-            int node = queue.pollFirst();
+            int node = queue.poll();
             output.append(node).append(" ");
-            inDegree[node] = -1;
 
             for (int neighbor : map[node]) {
                 inDegree[neighbor]--;
-            }
-
-            for (int i = 1; i <= N; i++) {
-                if (inDegree[i] == 0) {
-                    queue.add(i);
-                    inDegree[i]--;
+                if (inDegree[neighbor] == 0) {
+                    queue.add(neighbor);
                 }
-            }            
+            }         
             
         }
-        // 풀기 좋은 문제 먼저
-            
-        // 가능하면 낮은 번호부터
-
         bw.write(output.toString());
         bw.flush();
         br.close();
