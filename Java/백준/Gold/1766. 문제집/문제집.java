@@ -26,7 +26,7 @@ public class Main {
         }
     
 
-        ArrayList<Integer> queue = new ArrayList<>();
+        TreeSet<Integer> queue = new TreeSet<>();
         for (int i = 1; i <= N; i++) {
             if (inDegree[i]==0) {
                 queue.add(i);
@@ -36,7 +36,7 @@ public class Main {
 
         while (!queue.isEmpty()) {
 
-            int node = queue.remove(0);
+            int node = queue.pollFirst();
             output.append(node).append(" ");
             inDegree[node] = -1;
 
@@ -49,10 +49,7 @@ public class Main {
                     queue.add(i);
                     inDegree[i]--;
                 }
-            }
-
-            Collections.sort(queue);
-            
+            }            
             
         }
         // 풀기 좋은 문제 먼저
