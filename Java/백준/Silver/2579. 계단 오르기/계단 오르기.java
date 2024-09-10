@@ -26,14 +26,6 @@ public class Main {
             dp[i][1] = Math.max(dp[i-2][0], dp[i-2][1]) + stairs[i];
         }
 
-        /*for (int i = 1; i <= N; i++) {
-            System.out.print(dp[i][0]+" ");
-        }
-        System.out.println();
-        for (int i = 1; i <= N; i++) {
-            System.out.print(dp[i][1]+" ");
-        }*/
-
 
         output.append(Math.max(dp[N][0], dp[N][1]));
 
