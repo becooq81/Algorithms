@@ -1,0 +1,67 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    static int N, M;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder output = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+
+        List<Integer>[] map = new ArrayList[N+1];
+        int[] inDegree = new int[N+1];
+        for (int i = 1; i <= N; i++) {
+            map[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            map[a].add(b);
+            inDegree[b]++;
+        }
+    
+
+        ArrayList<Integer> queue = new ArrayList<>();
+        for (int i = 1; i <= N; i++) {
+            if (inDegree[i]==0) {
+                queue.add(i);
+                break;
+            }
+        }
+
+        while (!queue.isEmpty()) {
+
+            int node = queue.remove(0);
+            output.append(node).append(" ");
+            inDegree[node] = -1;
+
+            for (int neighbor : map[node]) {
+                inDegree[neighbor]--;
+            }
+
+            for (int i = 1; i <= N; i++) {
+                if (inDegree[i] == 0) {
+                    queue.add(i);
+                    inDegree[i]--;
+                }
+            }
+
+            Collections.sort(queue);
+            
+            
+        }
+        // 풀기 좋은 문제 먼저
+            
+        // 가능하면 낮은 번호부터
+
+        bw.write(output.toString());
+        bw.flush();
+        br.close();
+        bw.close();
+    }
+}
