@@ -2,15 +2,13 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static BufferedReader br;
-    static StringBuilder sb;
-    static BufferedWriter bw;
-    static StringTokenizer st;
-    static int n, m, parents[];
-    
-    static void makeSet() {
-        parents = new int[n+1];
+    static int n, m, parents[], size[];
+
+    static void make() {
+        parents= new int[n];
+        size = new int[n];
         Arrays.fill(parents, -1);
+        Arrays.fill(size, 1);
     }
 
     static int findSet(int a) {
@@ -18,25 +16,32 @@ public class Main {
         return parents[a] = findSet(parents[a]);
     }
 
-    static boolean union(int a, int b) {
+    static boolean union(int a, int b){
         int aRoot = findSet(a);
         int bRoot = findSet(b);
         if (aRoot == bRoot) return false;
-        parents[aRoot] = bRoot;
+        if (size[bRoot] > size[aRoot]) {
+            size[bRoot] += size[aRoot];
+            parents[aRoot] = bRoot;
+        } else {
+            size[aRoot] += size[bRoot];
+            parents[bRoot] = aRoot;
+        }
         return true;
     }
 
     public static void main(String[] args) throws IOException {
-        br = new BufferedReader(new InputStreamReader(System.in));
-        bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        sb = new StringBuilder();
-        st = new StringTokenizer(br.readLine());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
+
         int count = 1;
-        makeSet();
+        make();
         int[][] edges = new int[m][2];
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
