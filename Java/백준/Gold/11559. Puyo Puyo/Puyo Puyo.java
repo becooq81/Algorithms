@@ -11,7 +11,6 @@ public class Main {
             for (int j = 0; j < W; j++) {
                 boolean[][] visited = new boolean[H][W];
                 if (grid[i][j] != '.') {
-                    // System.out.println("Start bfs: ("+i+","+j+")"+": "+grid[i][j]);
                     if (pangpang(i, j, visited)) {
                         success = true;
                     }
@@ -46,14 +45,7 @@ public class Main {
             }
         }
         grid = newGrid;
-        
-        /*System.out.println("AFTER GRAVITY");
-        for (int i = 0; i < H; i++) {
-            for (int j = 0; j < W; j++) {
-                System.out.print(grid[i][j]+" ");
-            }
-            System.out.println();
-        }*/
+    
     }
 
     static boolean isValidCoordinate(int y, int x) {
