@@ -5,7 +5,6 @@ public class Main {
     static final int DY[] = {-1, -1, 0, 1, 1, 1, 0, -1}, DX[] = {0, -1, -1, -1, 0, 1, 1, 1};
 
     static void simulate(int[][] grid, Fish[] school) {
-        // 상어 (0, 0) 입장, 해당 생선 방향 획득, 해당 생선 먹음
         Shark shark = new Shark(0, 0, school[grid[0][0]].direction);
         int initialFish = grid[0][0];
         school[grid[0][0]] = null;
