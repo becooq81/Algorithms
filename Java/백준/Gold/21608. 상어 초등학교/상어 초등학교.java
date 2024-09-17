@@ -104,7 +104,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder output = new StringBuilder();
         StringTokenizer st;
 
         N = Integer.parseInt(br.readLine());
