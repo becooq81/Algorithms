@@ -73,7 +73,6 @@ public class Main {
                         }
                     }
                 }
-                // System.out.printf("Seat: (%d, %d), favs: %d, empty: %d\n", i, j, favs, empty);
                 seats.add(new Seat(i, j, favs, empty));
             }
         }
@@ -121,12 +120,6 @@ public class Main {
             map.put(student, favs);
             locate(student, favs);
         }
-        /*for (int i =0 ; i < N; i++) {
-            for (int j = 0 ; j < N; j++) {
-                System.out.print(grid[i][j]+" ");
-            }
-            System.out.println();
-        }*/
         System.out.println(survey());
     }
 }
