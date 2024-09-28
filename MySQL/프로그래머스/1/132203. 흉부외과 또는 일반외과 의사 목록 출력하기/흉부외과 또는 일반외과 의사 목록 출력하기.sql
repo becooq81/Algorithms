@@ -1,4 +1,3 @@
-SELECT DR_NAME, DR_ID, MCDP_CD, DATE_FORMAT(HIRE_YMD, '%Y-%m-%d') AS HIRE_YMD
-FROM DOCTOR
-WHERE MCDP_CD = 'CS' OR MCDP_CD = 'GS'
-ORDER BY HIRE_YMD DESC, DR_NAME ASC;
+select DR_NAME, DR_ID, MCDP_CD, substr(HIRE_YMD, 1,10) HIRE_YMD from doctor
+where mcdp_cd in ('CS', 'GS')
+order by hire_ymd desc, dr_name asc;
