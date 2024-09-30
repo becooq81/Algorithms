@@ -5,11 +5,14 @@ Welcome to my **Algorithms Solutions Repository**! This repository contains my s
 ## 📁 Repository Organization
 
 This repository is structured as follows:
+
+```
 |-- Language 
   |-- Platform 
-    |-- Difficulty
+    |-- Difficulty 
       |-- Problem Files
-      
+```
+   
 Each problem solution is organized by **language** (Python, C++, Java, etc.) and then by the **platform** where the problem was solved. The platforms I regularly solve problems on include:
 
 - [Baekjoon](https://www.acmicpc.net/)
