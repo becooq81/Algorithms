@@ -7,6 +7,7 @@ public class Main {
         int value;
         Node parent;
         List<Node> children;
+        boolean isLeaf = false;
 
         Node(int value) {
             this.value = value;
@@ -56,24 +57,19 @@ public class Main {
     static boolean createTrie(String number) {
         Node current = root;
 
-        // System.out.println(number);
 
         for (int i = 0; i < number.length(); i++) {
             int n = number.charAt(i) - '0';
 
-            // System.out.println(current);
-
-            if (current.hasChildOf(-10)) {
+            if (current.isLeaf) {
                 return false;
             } else if (current.getChildOf(n) == null) {
                 Node newNode = new Node(n, current);
                 current.children.add(newNode);
-                // System.out.println("    added "+newNode);
-            } 
+            }
             current = current.getChildOf(n);
         }
-        // System.out.println("LEAF ADDED TO: " + current.value);
-        current.children.add(new Node(-10));
+        current.isLeaf = true;
         return true;
     }
 
