@@ -35,18 +35,4 @@ public class Main {
         }
         System.out.println(output);
     }
-
-    private static int binarySearch(String cmd, String[] pokemons) {
-        int start = 0, end = pokemons.length-1;
-        while (start <= end) {
-            int mid = start + (end - start)/2;
-            if (pokemons[mid].equals(cmd)) return mid;
-            else if (pokemons[mid].compareTo(cmd) < 0) {
-                start = mid + 1;
-            } else {
-                end = mid - 1;
-            }
-        }
-        return -1;
-    }
 }
