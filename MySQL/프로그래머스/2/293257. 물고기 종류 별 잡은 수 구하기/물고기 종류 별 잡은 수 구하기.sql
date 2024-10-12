@@ -1,5 +1,4 @@
-SELECT COUNT(*) AS FISH_COUNT, FISH_NAME AS FISH_NAME
-FROM FISH_NAME_INFO 
-INNER JOIN FISH_INFO ON FISH_NAME_INFO.FISH_TYPE = FISH_INFO.FISH_TYPE 
-GROUP BY FISH_NAME
-ORDER BY FISH_COUNT DESC;
+select count(*) fish_count, (select fish_name from fish_name_info where fi.fish_type=fish_name_info.fish_type) as fish_name
+from fish_info fi 
+group by fi.fish_type
+order by fish_count desc;
