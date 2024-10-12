@@ -27,9 +27,7 @@ class Solution {
     
     public int solution(int[][] points, int[][] routes) {
         int answer = 0;
-        
-        // find route for each robot, 로봇 수: routes.length
-        // 로봇 시작점: points[routes[rIdx - 1][i]]
+
         
         List<List<int[]>> allRoutes = new ArrayList<>();
         for (int[] route : routes) {
@@ -54,7 +52,6 @@ class Solution {
     }
     
     private List<int[]> findRoute(int[] route, int[][] points) {
-        // i 번째 route을 받아서 points 돌아다닌다
         List<int[]> path = new ArrayList<>();
         int[] way = new int[route.length];
         for (int i =0 ; i < route.length; i++) {
